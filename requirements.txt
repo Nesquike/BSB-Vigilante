@@ -1,0 +1,4 @@
+pandas
+pysus
+matplotlib
+streamlit
