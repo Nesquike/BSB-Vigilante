@@ -1,4 +1,4 @@
-from src.layers.loader import data_loadSinan
+from src.layers.data.loader import data_loadSinan
 import pandas as pd
 
 
