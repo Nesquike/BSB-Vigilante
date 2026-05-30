@@ -1,2 +1,4 @@
-#arquivo vazio no momento.
-#tanto o arquivo quanto o diretório podem ser deletados caso necessário.
+import pandas as pd
+from src.layers.data.filters import filter
+
+filter(2025, "01")

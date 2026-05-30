@@ -5,10 +5,10 @@ from pysus import sinan
 processed_data = os.path.join("data", "processed")
 
 
-def data_loadSinan(ano: int, mes: int) -> pd.DataFrame:
+def data_loadSinan(ano: int) -> pd.DataFrame:
     os.makedirs(processed_data, exist_ok=True)
 
-    filename = f"sinan_DF_{ano}_{mes}.parquet"
+    filename = f"sinan_Dengue_{ano}.parquet"
     filepath = os.path.join(processed_data, filename)
 
     # cache
@@ -17,7 +17,7 @@ def data_loadSinan(ano: int, mes: int) -> pd.DataFrame:
 
     try:
         # download
-        dfFull = sinan(disease="DENG", year=ano, state="DF", month=mes)
+        dfFull = sinan(disease="DENG", year=ano)
 
         # validação
         if dfFull is None or dfFull.empty:
