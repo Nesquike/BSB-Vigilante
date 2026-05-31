@@ -27,7 +27,7 @@ def limpar(df: pd.DataFrame) -> pd.DataFrame:
     df = _validar_num_casos(df)
     df = _validar_dados(df)
     
-    # Reseta o index do DataFrame para integers sequenciais, previnindo index antigos de virarem uma nova coluna
+    # Reseta o index do DataFrame para integers sequenciais, prevenindo index antigos de virarem uma nova coluna
     # Retorna o DataFrame limpo
     return df.reset_index(drop=True)
     
@@ -43,8 +43,8 @@ def _tratar_datas(df: pd.DataFrame) -> pd.DataFrame:
     
     invalidas = df["data_notificacao"].isna().sum() # Conta a quantidade total de valores nulos na coluna data_notificacao
     if invalidas:
-        print(f"[cleaner] {invalidas} linha(s) removida(s) por data inválida.") # Imprime a quantidade de linhas invalidas removidas caso existam
-    return df.dropna(subset="data_notificacao") # Retorna o DataFrame limpo de data_notificacao invalida
+        print(f"[cleaner] {invalidas} linha(s) removida(s) por data inválida.") # Imprime a quantidade de linhas inválidas removidas caso existam
+    return df.dropna(subset="data_notificacao") # Retorna o DataFrame limpo de data_notificacao inválida
     
 def _normalizar_strings(df: pd.DataFrame) -> pd.DataFrame:
     # Converte a coluna regiao_administrativa, remove espaços e converte todas as letras para maiúsculas
@@ -55,7 +55,7 @@ def _normalizar_strings(df: pd.DataFrame) -> pd.DataFrame:
 
 def _remover_campos_vazios(df: pd.DataFrame) -> pd.DataFrame:
     antes = len(df) # Atribui à variável "antes" a quantidade total de linhas do DataFrame
-    df = df.dropna(subset=["regiao_administrativa", "num_casos", "sexo", "faixa_etaria"]) # Remove os campos nulos das colunas dp DataFrame
+    df = df.dropna(subset=["regiao_administrativa", "num_casos", "sexo", "faixa_etaria"]) # Remove os campos nulos das colunas do DataFrame
     removidas = antes - len(df) # Subtrai a quantidade anterior de linhas pelo DataFrame limpo para encontrar a quantidade total de itens removidos
     if removidas:
         print(f"[cleaner] {removidas} linha(s) removida(s) por campos vazios.") # Imprime a quantidade de linhas removidas por terem campos nulos
@@ -79,7 +79,7 @@ def _validar_dados(df: pd.DataFrame) -> pd.DataFrame:
     if(~ra).sum():
         print(f"[cleaner]: {(~ra).sum()} linha(s) com RA desconhecida(s): {df.loc[~ra, "regiao_administrativa"].unique()}") # A quantidade de valores desconhecidos na coluna regiao_administrativa
     if(~sexo).sum():
-        print(f"[cleaner]:{(~sexo).sum()} linha(s) com sexo inválido.") # A quantidade de valores desconhecidos na coluna sexo
+        print(f"[cleaner]: {(~sexo).sum()} linha(s) com sexo inválido.") # A quantidade de valores desconhecidos na coluna sexo
     if(~fe).sum():
         print(f"[cleaner]: {(~fe).sum()} linha(s) com faixa etária inválida.") # A quantidade de valores desconhecidos na coluna faixa_etaria
         
