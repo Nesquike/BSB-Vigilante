@@ -26,8 +26,8 @@ def limpar(df: pd.DataFrame) -> pd.DataFrame:
     df = _tratar_datas(df)
     df = _normalizar_strings(df)
     df = _remover_campos_vazios(df)
-    df = _validar_dados(df)
     df = _calcular_faixa_etaria(df)
+    df = _validar_dados(df)
     
     # Reseta o index do DataFrame para integers sequenciais, prevenindo index antigos de virarem uma nova coluna
     # Retorna o DataFrame limpo
@@ -50,13 +50,14 @@ def _tratar_datas(df: pd.DataFrame) -> pd.DataFrame:
     
 def _normalizar_strings(df: pd.DataFrame) -> pd.DataFrame:
     # Converte a coluna ID_REGIONA, remove espaços e converte todas as letras para maiúsculas
-    df["ID_REGIONA"] = df["ID_REGIONA"].astype(str).str.split('.').str.strip().str.upper()
-    df["CS_SEXO"] = df["CS_SEXO"].astype(str).str.strip().str.upper() # Converte a coluna CS_SEXO para string, remove espaços e converte todas as letras para maiúsculas
-    df["NU_IDADE_N"] = df["NU_IDADE_N"].astype(str).str.strip() # Converte a coluna NU_IDADE_N para string e remove espaços
+    df["ID_REGIONA"] = df["ID_REGIONA"].fillna("").astype(str).str.split('.').str[0].str.strip().str.upper() # Converte a coluna ID_REGIONA para string remove espaços e converte todas as letras para maiúsculas
+    df["CS_SEXO"] = df["CS_SEXO"].fillna("").astype(str).str.strip().str.upper() # Converte a coluna CS_SEXO para string, remove espaços e converte todas as letras para maiúsculas
+    df["NU_IDADE_N"] = df["NU_IDADE_N"].fillna("").astype(str).str.split('.').str[0].str.strip() # Converte a coluna NU_IDADE_N para string e remove espaços
     return df # Retorna o DataFrame com strings normalizadas
 
 def _remover_campos_vazios(df: pd.DataFrame) -> pd.DataFrame:
     antes = len(df) # Atribui à variável "antes" a quantidade total de linhas do DataFrame
+    df = df.replace(r'^\s*$', np.nan, regex=True) #Transforma todas as linhas vazias: "", para nulo ofc do tipi np.nan
     df = df.dropna(subset=["ID_REGIONA", "CS_SEXO", "NU_IDADE_N"]) # Remove os campos nulos das colunas do DataFrame
     removidas = antes - len(df) # Subtrai a quantidade anterior de linhas pelo DataFrame limpo para encontrar a quantidade total de itens removidos
     if removidas:
@@ -82,13 +83,18 @@ def _calcular_faixa_etaria(df: pd.DataFrame) -> pd.DataFrame:
 
 
 def _validar_dados(df: pd.DataFrame) -> pd.DataFrame:
-    ra = df["ID_REGIONA"].isin(REGIAO_VALIDAS) # Verifica se os valores da coluna ID_REGIONA estão no set RA_VALIDAS
+     # Verifica se os valores da coluna ID_REGIONA estão no set RA_VALIDAS
     sexo = df["CS_SEXO"].isin(SEXOS_VALIDOS) # Verifica se os valores da coluna sexo estão no set SEXOS_VALIDOS
-    fe = df["NU_IDADE_N"].isin(FE_VALIDAS) # Verifica se os valores da coluna faixa_etaria estão no set FE_VALIDAS
+    fe = df["FX_ETARIA"].isin(FE_VALIDAS) # Verifica se os valores da coluna faixa_etaria estão no set FE_VALIDAS
+    ra = (df["SG_UF_NOT"] != "53") | df["ID_REGIONA"].isin(REGIAO_VALIDAS) #Validação condicinal de região: Se a linha for do DF, ela deve ter uma RA valida de Brasilia.
+    # Se for de outro estado, mantem a lógica
     
     # Caso algum valor desconhecido seja encontrado, imprime:
-    if(~ra).sum():
-        print(f"[cleaner]: {(~ra).sum()} linha(s) com RA desconhecida(s): {df.loc[~ra, "ID_REGIONA"].unique()}") # A quantidade de valores desconhecidos na coluna ID_REGIONA
+    linhas_fora_df = df.loc[~df["ID_REGIONA"].isin(REGIAO_VALIDAS), "ID_REGIONA"].unique()
+    if len(linhas_fora_df) > 0:
+        exemplos = linhas_fora_df[:5]
+        sufixo = " ..." if len(linhas_fora_df) > 5 else ""
+        print(f"[cleaner]: {(~df['ID_REGIONA'].isin(REGIAO_VALIDAS)).sum()} linha(s) com RA de fora do DF ou inválida. Exemplos: {exemplos}{sufixo}") # A quantidade de valores desconhecidos na coluna ID_REGIONA
     if(~sexo).sum():
         print(f"[cleaner]: {(~sexo).sum()} linha(s) com sexo inválido.") # A quantidade de valores desconhecidos na coluna sexo
     if(~fe).sum():
