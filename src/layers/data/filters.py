@@ -32,21 +32,37 @@ def filter_distrib_idade(ano: int, mes: str=None, uf: str=None): #função para 
 
     return counter_idade
 
-def filter_df(ano: int, mes: str=None, uf: str="53"): #função derivada da principal para filtrar somente por UF
+def filter_df(ano: int, mes: str=None, uf: str="53"): #função derivada da principal para filtrar somente por UF(DF)
     total = _filter(ano, mes=mes, uf=uf)
     return total
 
-def filter_sexo_df(ano: int, sex: str, mes: str=None, uf: str="53"): #função derivada da principal para filtrar sexo na UF
+def filter_sexo(ano: int, sex: str, mes: str=None, uf: str=None): #função derivada da principal para filtrar sexo no DF
     filtro = {"CS_SEXO": sex}
     total = _filter(ano, mes=mes, uf=uf, xfilters=filtro)
     return total
 
-def filter_sexo(ano: int, sex: str, mes: str=None): #função derivada da principal para filtrar somente por sexo
-    filtro = {"CS_SEXO": sex}
-    total = _filter(ano, mes=mes, uf=None, xfilters=filtro)
-    return total
-
-def filter_idade_df(ano: int, fx_etaria: str, mes: str=None, uf: str="53"): #função derivada da principal para filtrar idade especifica na UF
+def filter_idade(ano: int, fx_etaria: str, mes: str=None, uf: str=None): #função derivada da principal para filtrar idade especifica no DF
     filtro = {"FX_ETARIA": fx_etaria}
     total = _filter(ano, mes=mes, uf=uf, xfilters=filtro)
+    return total
+
+def filter_regiao_df(ano: int, regiao: str, mes: str=None, uf: str="53"): # função derivada para filtrar regiao generica do DF
+    filtro = {"ID_REGIONA": regiao}
+    total = _filter(ano, mes=mes, uf=uf, xfilters=filtro)
+    return total
+
+#Funções cruzadas:
+
+def filter_cross(ano: int, regiao: str=None, fx_etaria: str =None,sexo: str=None, mes: str=None, uf: str=None): #filtro para casos de multiplos parametros
+    filtros = {}
+    if regiao:
+        filtros["ID_REGIONA"] = regiao
+    if fx_etaria:
+        filtros["FX_ETARIA"] = fx_etaria
+    if sexo:
+        filtros["CS_SEXO"] = sexo
+    
+    xfilters_ready = filtros if filtros else None #verificação da existencia de filtros para prevenção de erros
+    
+    total = _filter(ano, mes=mes, uf=uf, xfilters=xfilters_ready)
     return total
