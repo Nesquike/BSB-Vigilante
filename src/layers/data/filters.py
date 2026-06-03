@@ -7,6 +7,8 @@ def _filter(ano: int, mes: int=None,uf: str=None, xfilters: dict= None, return_d
     df = limpar(data_loadSinan(ano))
     condition = pd.Series(True, index=df.index)
 
+    condition &= (df["DT_NOTIFIC"].dt.year == ano)
+
     if mes: #verifica se existe busca por mes
         condition &= (df["DT_NOTIFIC"].dt.month == mes)
     
