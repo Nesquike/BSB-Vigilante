@@ -25,12 +25,6 @@ def _filter(ano: int, mes: int=None,uf: str=None, xfilters: dict= None, return_d
     
     return df_filtrado.shape[0]
 
-def filter_distrib_idade(ano: int, mes: int=None, uf: str=None): #função para filtrar a distribuição de idades
-    dfFiltrado = _filter(ano, mes=mes, uf=uf, return_df=True)
-
-    counter_idade = dfFiltrado["FX_ETARIA"].value_counts().sort_index()
-
-    return counter_idade
 
 def filter_df(ano: int, mes: int=None, uf: str="53"): #função derivada da principal para filtrar somente por UF(DF)
     total = _filter(ano, mes=mes, uf=uf)
