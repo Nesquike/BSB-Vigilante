@@ -40,7 +40,7 @@ def graphCreator_serietemporal(ano: int): #função criadora de gráficos linear
     ax.set_title( 
         f"Evolução Mensal dos casos de Dengue no DF em {ano}:",
         fontsize = 14,
-        fontname= "Arial",
+        fontname= "sans-serif",
         fontweight="bold"
         )
     ax.set_xlabel("Meses do ano", fontsize=10, fontname="Arial")
@@ -51,7 +51,7 @@ def graphCreator_serietemporal(ano: int): #função criadora de gráficos linear
 
     return fig
 
-def graphCreator_distribuiçãosexo(ano: int): #função criadora de gráficos pizza da distribuição de sexos no DF
+def graphCreator_distribuicaosexo(ano: int): #função criadora de gráficos pizza da distribuição de sexos no DF
     df = _filter(ano=ano, uf="53")
     if df.empty:
         return None
