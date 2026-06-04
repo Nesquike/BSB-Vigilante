@@ -2,9 +2,10 @@
 import matplotlib.pyplot as plt
 from src.layers.business.analytics import (
     graphCreator_serietemporal,
-    graphCreator_distribuiçãosexo
+    graphCreator_distribuiçãosexo,
+    graphCreator_regiao
 )
-ano = 2026
+ano = 2025
 
 def serie_tempo():
     print(f"[Teste] Gerando gráfico de linhas para o ano de {ano}...")
@@ -29,4 +30,14 @@ def sex_pizza():
     else:
         print("-> Falha ao gerar o gráfico de pizza.")
 
-sex_pizza()
+def barras_regiao():
+    print(f"[Teste] Gerando gráfico de barras por região para {ano}...")
+    foto_barras = graphCreator_regiao(ano=ano)
+
+    if foto_barras is not None:
+        print("-> Sucesso! Gráfico de barras gerado.")
+        plt.show()  # Abre a janela interativa com o ranking na tela
+    else:
+        print("-> Falha ao gerar o gráfico de barras por região.")
+
+barras_regiao()
