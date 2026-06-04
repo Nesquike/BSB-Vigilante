@@ -65,6 +65,7 @@ def _remover_campos_vazios(df: pd.DataFrame) -> pd.DataFrame:
     return df # Retorna o DataFrame sem campos nulos
 
 def _calcular_faixa_etaria(df: pd.DataFrame) -> pd.DataFrame:
+    df = df.copy(deep=True)
     # Converte para int temporariamente para fazer a matemática do DATASUS
     idades_brutas = pd.to_numeric(df["NU_IDADE_N"], errors='coerce').fillna(0).astype(int)
     
@@ -72,13 +73,14 @@ def _calcular_faixa_etaria(df: pd.DataFrame) -> pd.DataFrame:
     idade_anos = np.where((idades_brutas >= 4000) & (idades_brutas <= 4120), idades_brutas - 4000, 0)
     
     # Agrupa nas faixas definidas em FE_VALIDAS
-    df["FX_ETARIA"] = pd.cut(
+    faixas = pd.cut(
         idade_anos,
         bins=[0, 10, 20, 40, 60, 80, np.inf],
         labels=["0-9", "10-19", "20-39", "40-59", "60-79", "80+"],
         right=False
     ).astype(str)
     
+    df.loc[:, "FX_ETARIA"] = faixas
     return df
 
 
