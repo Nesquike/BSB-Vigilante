@@ -20,6 +20,9 @@ FE_VALIDAS = {
 # Função pública
 
 def limpar(df: pd.DataFrame) -> pd.DataFrame:
+    if df.empty:
+        return df
+    
     # Chama as funções privadas para limpar o DataFrame
     df = df.copy() # O método .copy() garante que as alterações ocorram em um DataFrame independente, ao invés de uma fatia do original
     df = _remover_duplicatas(df)
