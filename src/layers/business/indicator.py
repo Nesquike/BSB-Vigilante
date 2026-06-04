@@ -1,5 +1,5 @@
 import pandas as pd
-from process import (
+from src.layers.business.process import (
     casos_por_regiao,
     serie_temporal
 )
