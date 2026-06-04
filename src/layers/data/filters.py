@@ -22,10 +22,8 @@ def _filter(ano: int, mes: int=None,uf: str=None, xfilters: dict= None, return_d
     
     df_filtrado = df[condition]
 
-    if return_df:
-        return df_filtrado
     
-    return df_filtrado.shape[0]
+    return df_filtrado
 
 
 def filter_df(ano: int, mes: int=None, uf: str="53"): #função derivada da principal para filtrar somente por UF(DF)
