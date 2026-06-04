@@ -10,8 +10,10 @@ from src.layers.business.process import(
     total_casos
 )
 
+from src.layers.data.filters import _filter
+
 def graphCreator_serietemporal(ano: int):
-    df = filter(ano=ano)
+    df = _filter(ano=ano, uf="53", return_df=True)
     if df.empty:
         return None
     prcssd_serie = serie_temporal(df)
@@ -27,14 +29,14 @@ def graphCreator_serietemporal(ano: int):
         color = "#006CC5"
     )
 
-    ax.set_title(
+    ax.set_title( 
         f"Evolução Mensal dos casos de Denguue no DF em {ano}",
         fontsize = 14,
-        fontname= "Helvetica",
+        fontname= "Arial",
         fontweight="bold"
         )
-    ax.set_xlabel("Meses do ano", fontsize=10, fontname="Helvetica")
-    ax.set_ylabel("Número de casos", fontsize=10, fontname="Helvetica")
+    ax.set_xlabel("Meses do ano", fontsize=10, fontname="Arial")
+    ax.set_ylabel("Número de casos", fontsize=10, fontname="Arial")
 
     plt.xticks(rotation=30)
     plt.tight_layout()

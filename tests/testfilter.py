@@ -1,12 +1,13 @@
 import pandas as pd
 
 # Importa apenas as funções da sua camada de filtros
-from src.layers.data.filters import _filter, filter_distrib_idade, filter_cross
+from src.layers.data.filters import _filter, filter_cross
+from src.layers.business.process import distribuicao_faixa_etaria
 
 # ==============================================================================
 # CONFIGURAÇÃO: Defina o ano que você tem baixado na sua máquina
 # ==============================================================================
-ANO_TESTE = 2025
+ANO_TESTE = 2024
 
 print("=" * 60)
 print(f"INICIANDO TESTE DIRETO: PIPELINE DATASUS (ANO {ANO_TESTE})")
@@ -51,7 +52,7 @@ print("\n" + "-" * 50)
 print("[Teste 4] Rodando filter_distrib_idade (Agrupamento final para o Matplotlib):")
 print("-" * 50)
 
-distribuicao = filter_distrib_idade(ANO_TESTE, uf="53")
+distribuicao = distribuicao_faixa_etaria(ANO_TESTE, uf="53")
 
 print("-> Sucesso! Série gerada a partir dos dados reais do cleaner:\n")
 if not distribuicao.empty:
