@@ -84,7 +84,7 @@ def graphCreator_distribuiçãosexo(ano: int): #função criadora de gráficos p
 
     return fig
 
-def graphCreator_regiao(ano: int):
+def graphCreator_regiao(ano: int): #função criadora de gráficos/histogramas por número de casos por região do DF
     df = filter_df(ano)
     if df.empty:
         return None
