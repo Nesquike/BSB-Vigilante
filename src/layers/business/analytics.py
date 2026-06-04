@@ -43,8 +43,8 @@ def graphCreator_serietemporal(ano: int): #função criadora de gráficos linear
         fontname= "sans-serif",
         fontweight="bold"
         )
-    ax.set_xlabel("Meses do ano", fontsize=10, fontname="Arial")
-    ax.set_ylabel("Número de casos", fontsize=10, fontname="Arial")
+    ax.set_xlabel("Meses do ano", fontsize=10, fontfamily="sans-serif")
+    ax.set_ylabel("Número de casos", fontsize=10, fontname="sans-serif")
 
     plt.xticks(rotation=30)
     plt.tight_layout()
