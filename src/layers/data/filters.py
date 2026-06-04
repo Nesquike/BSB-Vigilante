@@ -1,10 +1,23 @@
 import pandas as pd
+import streamlit as st
 from src.layers.data.cleaner import limpar
 from src.layers.data.loader import data_loadSinan
 
+@st.cache_resource(show_spinner="Processando base de dados do SINAN...")
+def carregar_e_limpar_ano(ano: int) -> pd.DataFrame:
+    """
+    Carrega do parquet (ou baixa) e aplica a limpeza apenas uma vez por ano.
+    O Streamlit guardará o resultado final limpo direto na memória RAM.
+    """
+    return limpar(data_loadSinan(ano))
+
 def _filter(ano: int, mes: int=None,uf: str=None, xfilters: dict= None, return_df: bool= False): #função filtro base/principal para as outras
 
-    df = limpar(data_loadSinan(ano))
+    df = carregar_e_limpar_ano(ano)
+    
+    if df.empty:
+        return df
+    
     condition = pd.Series(True, index=df.index)
 
     condition &= (df["DT_NOTIFIC"].dt.year == ano)
