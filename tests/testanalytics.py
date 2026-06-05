@@ -2,8 +2,9 @@
 import matplotlib.pyplot as plt
 from src.layers.business.analytics import (
     graphCreator_serietemporal,
-    graphCreator_distribuiçãosexo,
-    graphCreator_regiao
+    graphCreator_distribuicaosexo,
+    graphCreator_regiao,
+    graphCreator_fxetaria
 )
 ano = 2025
 
@@ -22,7 +23,7 @@ def serie_tempo():
 def sex_pizza():
     # No final do seu testanalytics.py:
     print(f"[Teste] Gerando gráfico de pizza por sexo para {ano}...")
-    foto_pizza = graphCreator_distribuiçãosexo(ano=ano)
+    foto_pizza = graphCreator_distribuicaosexo(ano=ano)
 
     if foto_pizza is not None:
         plt.show() # Vai abrir a janela com o gráfico de rosca na tela!
@@ -40,4 +41,15 @@ def barras_regiao():
     else:
         print("-> Falha ao gerar o gráfico de barras por região.")
 
-barras_regiao()
+def barras_fxetaria():
+    print(f"[Teste] Gerando gráfico de barras por fxetária para {ano}...")
+    foto_barras = graphCreator_fxetaria(ano=ano)
+
+    if foto_barras is not None:
+        print("Sucesso! Gráfico gerado.")
+        plt.show()
+    else:
+        print("Falha ao gerar o gráfico.")
+
+
+barras_fxetaria()
