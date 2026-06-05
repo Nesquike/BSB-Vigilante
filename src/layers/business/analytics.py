@@ -28,7 +28,7 @@ def graphCreator_serietemporal(ano: int): #função criadora de gráficos linear
     if prcssd_serie.empty:
         return None
     
-    fig, ax = plt.subplots(figsize=(10,4.5))
+    fig, ax = plt.subplots(figsize=(6, 4))
 
     ax.plot(
         prcssd_serie.index.astype(str),
@@ -39,12 +39,12 @@ def graphCreator_serietemporal(ano: int): #função criadora de gráficos linear
 
     ax.set_title( 
         f"Evolução Mensal dos casos de Dengue no DF em {ano}:",
-        fontsize = 14,
+        fontsize = 10,
         fontname= "sans-serif",
         fontweight="bold"
         )
-    ax.set_xlabel("Meses do ano", fontsize=10, fontfamily="sans-serif")
-    ax.set_ylabel("Número de casos", fontsize=10, fontname="sans-serif")
+    ax.set_xlabel("Meses do ano", fontsize=8, fontfamily="sans-serif")
+    ax.set_ylabel("Número de casos", fontsize=8, fontname="sans-serif")
 
     plt.xticks(rotation=30)
     plt.tight_layout()
@@ -59,7 +59,7 @@ def graphCreator_distribuicaosexo(ano: int): #função criadora de gráficos piz
     if prcssd_sex.empty:
         return None
     
-    fig, ax = plt.subplots(figsize=(7,7))
+    fig, ax = plt.subplots(figsize=(4, 4))
 
     cores_map = {
         "F": "#8c0000",
@@ -120,8 +120,8 @@ def graphCreator_regiao(ano: int): #função criadora de gráficos/histogramas p
     ax.set_xlabel("Regiões do DF", fontsize=11, labelpad=10)
     ax.set_ylabel("Quantidade de Casos Notificados", fontsize=11, labelpad=10)
 
-    ax.tick_params(axis='x', rotation=20, labelsize=9)
-    ax.tick_params(axis='y', labelsize=10)
+    ax.tick_params(axis='x', rotation=20, labelsize=8)
+    ax.tick_params(axis='y', labelsize=8)
     ax.grid(axis='y', linestyle='--', alpha=0.5)
 
     maior_valor = prcssd_rg.max()
