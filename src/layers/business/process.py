@@ -1,4 +1,5 @@
 import pandas as pd
+from src.layers.data.cleaner import REGIAO_VALIDAS
 
 def casos_por_regiao(df: pd.DataFrame) -> pd.Series: # Gráfico de barras
     # Ranking de RA's
@@ -23,7 +24,7 @@ def distribuicao_faixa_etaria(df: pd.DataFrame) -> pd.Series: # Gráfico de barr
     
 def regiao_com_mais_casos(df: pd.DataFrame) -> str:
     # Devolve só o nome da RA com mais notificações de dengue
-    return casos_por_regiao(df).idxmax()
+    return REGIAO_VALIDAS.get(casos_por_regiao(df).idxmax(), "Outras Regiões")
 
 def total_casos(df: pd.DataFrame) -> int:
     # Retorna um número simples que pode ser exibido no topo de qualquer painel
