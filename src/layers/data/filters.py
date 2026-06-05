@@ -3,7 +3,6 @@ import streamlit as st
 from src.layers.data.cleaner import limpar
 from src.layers.data.loader import data_loadSinan
 
-@st.cache_resource(show_spinner="Processando base de dados do SINAN...")
 def carregar_e_limpar_ano(ano: int) -> pd.DataFrame:
     """
     Carrega do parquet (ou baixa) e aplica a limpeza apenas uma vez por ano.
